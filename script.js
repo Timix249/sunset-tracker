@@ -11,37 +11,24 @@ document.getElementById("date").innerText =
 }
 
 setInterval(updateClock,1000)
-
 updateClock()
-
-
 
 function toggleMenu(){
 
 let menu = document.getElementById("menuBox")
 
-if(menu.style.display === "block")
-
-menu.style.display = "none"
-
-else
-
-menu.style.display = "block"
+menu.style.display =
+menu.style.display === "block" ? "none" : "block"
 
 }
-
-
 
 function getSun(lat,lon){
 
 fetch("https://api.sunrise-sunset.org/json?lat="+lat+"&lng="+lon+"&formatted=0")
-
 .then(r=>r.json())
-
 .then(data=>{
 
 let sunrise = new Date(data.results.sunrise)
-
 let sunset = new Date(data.results.sunset)
 
 document.getElementById("sunrise").innerText =
@@ -54,39 +41,27 @@ document.getElementById("sunset").innerText =
 
 }
 
+function loadMap(lat,lon){
 
+let map = L.map('map').setView([lat,lon],13)
 
-function searchCity(){
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+maxZoom:19
+}).addTo(map)
 
-let city = document.getElementById("city").value
-
-fetch("https://nominatim.openstreetmap.org/search?format=json&q="+city)
-
-.then(r=>r.json())
-
-.then(data=>{
-
-let lat = data[0].lat
-
-let lon = data[0].lon
-
-getSun(lat,lon)
-
-})
+L.marker([lat,lon]).addTo(map)
 
 }
-
-
 
 function autoLocation(){
 
 navigator.geolocation.getCurrentPosition(pos=>{
 
 let lat = pos.coords.latitude
-
 let lon = pos.coords.longitude
 
 getSun(lat,lon)
+loadMap(lat,lon)
 
 })
 

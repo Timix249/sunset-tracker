@@ -16,22 +16,11 @@ color:white;
 padding:40px;
 }
 
-h1{
-margin-bottom:30px;
-}
-
 .card{
 background:#1e293b;
 padding:20px;
 border-radius:15px;
-margin-bottom:20px;
-}
-
-iframe{
-width:100%;
-height:600px;
-border:none;
-border-radius:10px;
+margin-bottom:10px;
 }
 
 </style>
@@ -40,16 +29,48 @@ border-radius:10px;
 
 <body>
 
-<h1>🔐 Admin Panel</h1>
+<h1>🔐 Sun Time Admin</h1>
 
-<div class="card">
+<div id="visits"></div>
 
-<h2>📊 Website Analytics</h2>
+<script type="module">
 
-<iframe src="https://analytics.google.com"></iframe>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-</div>
+const firebaseConfig = {
+  apiKey: "AIzaSyBM15kmcDYxrOigyaVeVuTuQHPWP8p5rsg",
+  authDomain: "suntime-90fc9.firebaseapp.com",
+  projectId: "suntime-90fc9",
+  storageBucket: "suntime-90fc9.firebasestorage.app",
+  messagingSenderId: "95180748537",
+  appId: "1:95180748537:web:2067504018a3c14c07d428",
+  measurementId: "G-X224791YP5"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const querySnapshot = await getDocs(collection(db,"visits"));
+
+const container = document.getElementById("visits")
+
+querySnapshot.forEach((doc)=>{
+
+let data = doc.data()
+
+let div = document.createElement("div")
+div.className="card"
+
+div.innerHTML =
+"📱 Device: "+data.device+"<br>"+
+"⏰ Time: "+data.time
+
+container.appendChild(div)
+
+})
+
+</script>
 
 </body>
 </html>
-

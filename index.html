@@ -6,18 +6,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Sun App</title>
+<title>Sun Time</title>
 
 <link rel="stylesheet" href="style.css">
 
-<link rel="manifest" href="manifest.json">
-
-<link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
-
 <meta name="theme-color" content="#0f172a">
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RV7WGKCR5L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RV7WGKCR5L');
+</script>
+
 </head>
+
 <body>
 
 <div class="top">
@@ -28,34 +36,36 @@
 
 </div>
 
-
 <div id="menuBox">
 
 <input id="city" placeholder="Введіть місто">
-
 <button onclick="searchCity()">Показати</button>
 
 </div>
 
-
-
 <div class="card">
 
 <div id="date"></div>
-
 <div id="clock"></div>
 
 <div class="sun">
 
 <div id="sunrise"></div>
-
 <div id="sunset"></div>
 
 </div>
 
+<div class="sky">
+
+<div id="sun"></div>
+
 </div>
 
+<div id="map"></div>
 
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 
 </body>

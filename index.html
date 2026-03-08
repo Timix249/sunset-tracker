@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Sun App</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0f172a">
+
+</head>
+
+<body>
+
+<div class="top">
+
+<div class="title">☀️ Sun Time</div>
+
+<div class="menu" onclick="toggleMenu()">⋯</div>
+
+</div>
+
+
+<div id="menuBox">
+
+<input id="city" placeholder="Введіть місто">
+
+<button onclick="searchCity()">Показати</button>
+
+</div>
+
+
+
+<div class="card">
+
+<div id="date"></div>
+
+<div id="clock"></div>
+
+<div class="sun">
+
+<div id="sunrise"></div>
+
+<div id="sunset"></div>
+
+</div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

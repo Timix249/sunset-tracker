@@ -10,37 +10,14 @@
 
 <link rel="stylesheet" href="style.css">
 
-<meta name="theme-color" content="#0f172a">
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RV7WGKCR5L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RV7WGKCR5L');
-</script>
 
 </head>
 
 <body>
 
 <div class="top">
-
 <div class="title">☀️ Sun Time</div>
-
-<div class="menu" onclick="toggleMenu()">⋯</div>
-
-</div>
-
-<div id="menuBox">
-
-<input id="city" placeholder="Введіть місто">
-<button onclick="searchCity()">Показати</button>
-
 </div>
 
 <div class="card">
@@ -48,24 +25,53 @@
 <div id="date"></div>
 <div id="clock"></div>
 
-<div class="sun">
-
 <div id="sunrise"></div>
 <div id="sunset"></div>
-
-</div>
-
-<div class="sky">
-
-<div id="sun"></div>
-
-</div>
 
 <div id="map"></div>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBM15kmcDYxrOigyaVeVuTuQHPWP8p5rsg",
+  authDomain: "suntime-90fc9.firebaseapp.com",
+  projectId: "suntime-90fc9",
+  storageBucket: "suntime-90fc9.firebasestorage.app",
+  messagingSenderId: "95180748537",
+  appId: "1:95180748537:web:2067504018a3c14c07d428",
+  measurementId: "G-X224791YP5"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+async function trackVisit(){
+
+let device = navigator.userAgent
+let time = new Date().toLocaleString()
+
+await addDoc(collection(db,"visits"),{
+
+device:device,
+time:time
+
+})
+
+}
+
+trackVisit()
+
+</script>
+
 <script src="script.js"></script>
 
 </body>

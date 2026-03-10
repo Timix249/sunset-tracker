@@ -1,3 +1,46 @@
+let lang = "en"
+
+const translations = {
+
+en:{
+sunrise:"🌅 Sunrise",
+sunset:"🌇 Sunset",
+weather:"7 Day Weather"
+},
+
+de:{
+sunrise:"🌅 Sonnenaufgang",
+sunset:"🌇 Sonnenuntergang",
+weather:"7 Tage Wetter"
+},
+
+uk:{
+sunrise:"🌅 Схід сонця",
+sunset:"🌇 Захід сонця",
+weather:"Погода на 7 днів"
+},
+
+tr:{
+sunrise:"🌅 Gün doğumu",
+sunset:"🌇 Gün batımı",
+weather:"7 Günlük Hava"
+}
+
+}
+
+
+
+function setLanguage(l){
+
+lang = l
+
+document.getElementById("weatherTitle").innerText =
+translations[l].weather
+
+}
+
+
+
 function updateClock(){
 
 let now = new Date()
@@ -43,7 +86,7 @@ let sky = document.getElementById("sky")
 
 if(hour >= 6 && hour < 20){
 
-sky.innerHTML = "☀️ 🌤"
+sky.innerHTML = "☀️ ☁️"
 
 }else{
 
@@ -68,10 +111,10 @@ let sunrise = new Date(data.results.sunrise)
 let sunset = new Date(data.results.sunset)
 
 document.getElementById("sunrise").innerText =
-"🌅 Sunrise " + sunrise.toLocaleTimeString()
+translations[lang].sunrise + " " + sunrise.toLocaleTimeString()
 
 document.getElementById("sunset").innerText =
-"🌇 Sunset " + sunset.toLocaleTimeString()
+translations[lang].sunset + " " + sunset.toLocaleTimeString()
 
 })
 
@@ -113,19 +156,6 @@ container.appendChild(div)
 
 
 
-function loadMap(lat,lon){
-
-let map = L.map('map').setView([lat,lon],12)
-
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png')
-.addTo(map)
-
-L.marker([lat,lon]).addTo(map)
-
-}
-
-
-
 function autoLocation(){
 
 navigator.geolocation.getCurrentPosition(pos=>{
@@ -135,7 +165,6 @@ let lon = pos.coords.longitude
 
 getSun(lat,lon)
 loadWeather(lat,lon)
-loadMap(lat,lon)
 
 })
 

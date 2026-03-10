@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 
 <head>
 
@@ -10,14 +10,24 @@
 
 <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 </head>
 
 <body>
 
 <div class="top">
+
 <div class="title">☀️ Sun Time</div>
+
+<select id="language" onchange="setLanguage(this.value)">
+<option value="en">English</option>
+<option value="de">Deutsch</option>
+<option value="uk">Українська</option>
+<option value="tr">Türkçe</option>
+</select>
+
 </div>
 
 <div class="card">
@@ -30,47 +40,13 @@
 
 <div id="map"></div>
 
+<h2 id="weatherTitle">7 Day Weather</h2>
+
+<div id="weather7"></div>
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-analytics.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBM15kmcDYxrOigyaVeVuTuQHPWP8p5rsg",
-  authDomain: "suntime-90fc9.firebaseapp.com",
-  projectId: "suntime-90fc9",
-  storageBucket: "suntime-90fc9.firebasestorage.app",
-  messagingSenderId: "95180748537",
-  appId: "1:95180748537:web:2067504018a3c14c07d428",
-  measurementId: "G-X224791YP5"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-
-async function trackVisit(){
-
-let device = navigator.userAgent
-let time = new Date().toLocaleString()
-
-await addDoc(collection(db,"visits"),{
-
-device:device,
-time:time
-
-})
-
-}
-
-trackVisit()
-
-</script>
 
 <script src="script.js"></script>
 

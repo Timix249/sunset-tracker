@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -20,11 +21,11 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <div class="title">☀️ Sun Time</div>
 
-<select id="language">
-<option>English</option>
-<option>Deutsch</option>
-<option>Українська</option>
-<option>Türkçe</option>
+<select id="language" onchange="setLanguage(this.value)">
+<option value="en">English</option>
+<option value="de">Deutsch</option>
+<option value="uk">Українська</option>
+<option value="tr">Türkçe</option>
 </select>
 
 </div>
@@ -34,19 +35,23 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <div class="card">
 
 <div id="date"></div>
+
 <div id="clock"></div>
 
 <div id="sunrise"></div>
+
 <div id="sunset"></div>
 
 <div id="map"></div>
 
-<h2>7 Day Weather</h2>
+<h2 id="weatherTitle">7 Day Weather</h2>
+
 <div id="weather7"></div>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script src="script.js"></script>
 
 </body>

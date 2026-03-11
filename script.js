@@ -1,44 +1,35 @@
 let lang = "en"
 
 const translations = {
-
 en:{
 sunrise:"🌅 Sunrise",
 sunset:"🌇 Sunset",
 weather:"7 Day Weather"
 },
-
 de:{
 sunrise:"🌅 Sonnenaufgang",
 sunset:"🌇 Sonnenuntergang",
 weather:"7 Tage Wetter"
 },
-
 uk:{
 sunrise:"🌅 Схід сонця",
 sunset:"🌇 Захід сонця",
 weather:"Погода на 7 днів"
 },
-
 tr:{
 sunrise:"🌅 Gün doğumu",
 sunset:"🌇 Gün batımı",
 weather:"7 Günlük Hava"
 }
-
 }
 
 function setLanguage(l){
-
 lang = l
-
 document.getElementById("weatherTitle").innerText =
 translations[l].weather
-
 }
 
 function updateClock(){
-
 let now = new Date()
 
 document.getElementById("clock").innerText =
@@ -46,12 +37,37 @@ document.getElementById("clock").innerText =
 
 document.getElementById("date").innerText =
 "📅 " + now.toLocaleDateString()
-
 }
 
 setInterval(updateClock,1000)
 updateClock()
 
+
+/* DAY PROGRESS */
+
+function updateDayProgress(){
+
+let now = new Date()
+
+let start = new Date()
+start.setHours(0,0,0,0)
+
+let end = new Date()
+end.setHours(23,59,59,999)
+
+let percent =
+((now - start) / (end - start)) * 100
+
+document.getElementById("dayBar").style.width =
+percent + "%"
+
+}
+
+setInterval(updateDayProgress,60000)
+updateDayProgress()
+
+
+/* MOON */
 
 function getMoon(){
 
@@ -71,6 +87,8 @@ return "🌕"
 
 }
 
+/* SKY */
+
 function updateSky(){
 
 let hour = new Date().getHours()
@@ -78,13 +96,9 @@ let hour = new Date().getHours()
 let sky = document.getElementById("sky")
 
 if(hour >= 6 && hour < 20){
-
 sky.innerHTML = "☀️ ☁️"
-
 }else{
-
 sky.innerHTML = getMoon() + " ⭐"
-
 }
 
 }
@@ -92,6 +106,8 @@ sky.innerHTML = getMoon() + " ⭐"
 setInterval(updateSky,60000)
 updateSky()
 
+
+/* WEATHER EFFECTS */
 
 function rainEffect(){
 
@@ -123,6 +139,8 @@ container.innerHTML="<div class='heat'></div>"
 }
 
 
+/* SUN */
+
 function getSun(lat,lon){
 
 fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`)
@@ -142,6 +160,8 @@ translations[lang].sunset + " " + sunset.toLocaleTimeString()
 
 }
 
+
+/* WEATHER */
 
 function loadWeather(lat,lon){
 
@@ -171,10 +191,22 @@ container.appendChild(div)
 
 }
 
+/* WEATHER EFFECT */
+
+if(max[0] > 30){
+heatEffect()
+}
+
+if(min[0] < 5){
+rainEffect()
+}
+
 })
 
 }
 
+
+/* MAP */
 
 function loadMap(lat,lon){
 
@@ -188,6 +220,8 @@ L.marker([lat,lon]).addTo(map)
 
 }
 
+
+/* LOCATION */
 
 function autoLocation(){
 
@@ -205,7 +239,3 @@ loadMap(lat,lon)
 }
 
 autoLocation()
-
-/* DEMO EFFECT */
-
-rainEffect()

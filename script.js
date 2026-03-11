@@ -1,113 +1,118 @@
-// automatische Sprache vom Handy/Browser
-let userLang = navigator.language.slice(0,2)
+// language from device
 
-if(!["en","de","uk","tr"].includes(userLang)){
-userLang="en"
+let lang = navigator.language.slice(0,2)
+
+if(!["en","de","uk","tr"].includes(lang)){
+lang="en"
 }
-
-let lang = userLang
 
 const translations={
 en:{
 sunrise:"🌅 Sunrise",
 sunset:"🌇 Sunset",
-weather:"7 Day Weather"
+weather:"7 Day Weather",
+progress:"Day progress"
 },
 de:{
 sunrise:"🌅 Sonnenaufgang",
 sunset:"🌇 Sonnenuntergang",
-weather:"7 Tage Wetter"
+weather:"7 Tage Wetter",
+progress:"Tagesfortschritt"
 },
 uk:{
 sunrise:"🌅 Схід сонця",
 sunset:"🌇 Захід сонця",
-weather:"Погода на 7 днів"
+weather:"Погода на 7 днів",
+progress:"Прогрес дня"
 },
 tr:{
 sunrise:"🌅 Gün doğumu",
 sunset:"🌇 Gün batımı",
-weather:"7 Günlük Hava"
+weather:"7 Günlük Hava",
+progress:"Gün ilerleme"
 }
 }
 
 function setLanguage(l){
 lang=l
-document.getElementById("weatherTitle").innerText =
+document.getElementById("weatherTitle").innerText=
 translations[l].weather
 }
 
-// Uhr + Datum
+// clock
+
 function updateClock(){
 
-let now = new Date()
+let now=new Date()
 
-document.getElementById("clock").innerText =
-"⏰ "+ now.toLocaleTimeString()
+document.getElementById("clock").innerText=
+"⏰ "+now.toLocaleTimeString()
 
-document.getElementById("date").innerText =
-"📅 "+ now.toLocaleDateString()
+document.getElementById("date").innerText=
+"📅 "+now.toLocaleDateString()
 
 }
 
 setInterval(updateClock,1000)
 updateClock()
 
+// day progress
 
-// Tagesfortschritt mit Prozent
 function updateDayProgress(){
 
-let now = new Date()
+let now=new Date()
 
-let start = new Date()
+let start=new Date()
 start.setHours(0,0,0,0)
 
-let end = new Date()
+let end=new Date()
 end.setHours(23,59,59,999)
 
-let percent = ((now - start) / (end - start)) * 100
+let percent=((now-start)/(end-start))*100
 
-document.getElementById("dayBar").style.width = percent + "%"
+document.getElementById("dayBar").style.width=
+percent+"%"
 
-document.getElementById("dayBar").innerText =
-Math.floor(percent) + "%"
+document.getElementById("progressText").innerText=
+translations[lang].progress+": "+Math.floor(percent)+"%"
 
 }
 
 setInterval(updateDayProgress,60000)
 updateDayProgress()
 
+// moon
 
-// Mondphase
 function getMoon(){
 
-let d = new Date()
+let d=new Date()
 
-let lp = 2551443
-let now = d.getTime()/1000
-let new_moon = 592500
+let lp=2551443
+let now=d.getTime()/1000
+let new_moon=592500
 
-let phase = ((now - new_moon) % lp) / lp
+let phase=((now-new_moon)%lp)/lp
 
-if(phase < 0.25) return "🌒"
-if(phase < 0.50) return "🌓"
-if(phase < 0.75) return "🌔"
+if(phase<0.25)return"🌒"
+if(phase<0.50)return"🌓"
+if(phase<0.75)return"🌔"
 
-return "🌕"
+return"🌕"
 
 }
 
+// sky
 
-// Himmel Tag/Nacht
 function updateSky(){
 
-let hour = new Date().getHours()
+let hour=new Date().getHours()
 
-let sky = document.getElementById("sky")
+let sky=document.getElementById("sky")
 
-if(hour >= 6 && hour < 20){
-sky.innerHTML = "☀️ ☁️"
+if(hour>=6&&hour<20){
+sky.innerHTML="☀️ ☁️"
 }else{
-sky.innerHTML = getMoon() + " ⭐"
+sky.innerHTML=getMoon()+" ⭐"
 }
 
 }
@@ -115,11 +120,11 @@ sky.innerHTML = getMoon() + " ⭐"
 setInterval(updateSky,60000)
 updateSky()
 
+// rain
 
-// Regen Effekt
 function rainEffect(){
 
-let container = document.getElementById("weatherEffect")
+let container=document.getElementById("weatherEffect")
 
 container.innerHTML=""
 
@@ -137,40 +142,39 @@ container.appendChild(drop)
 
 }
 
+// heat
 
-// Hitze Effekt
 function heatEffect(){
 
-let container = document.getElementById("weatherEffect")
+let container=document.getElementById("weatherEffect")
 
-container.innerHTML =
-"<div class='heat'></div>"
+container.innerHTML="<div class='heat'></div>"
 
 }
 
+// sunrise sunset
 
-// Sunrise / Sunset
 function getSun(lat,lon){
 
 fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`)
 .then(r=>r.json())
 .then(data=>{
 
-let sunrise = new Date(data.results.sunrise)
-let sunset = new Date(data.results.sunset)
+let sunrise=new Date(data.results.sunrise)
+let sunset=new Date(data.results.sunset)
 
-document.getElementById("sunrise").innerText =
+document.getElementById("sunrise").innerText=
 translations[lang].sunrise+" "+sunrise.toLocaleTimeString()
 
-document.getElementById("sunset").innerText =
+document.getElementById("sunset").innerText=
 translations[lang].sunset+" "+sunset.toLocaleTimeString()
 
 })
 
 }
 
+// weather
 
-// Wetter
 function loadWeather(lat,lon){
 
 fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto`)
@@ -191,7 +195,7 @@ let div=document.createElement("div")
 
 div.className="weather-day"
 
-div.innerHTML =
+div.innerHTML=
 `<span>${days[i]}</span>
 <span>${max[i]}° / ${min[i]}°</span>`
 
@@ -199,12 +203,11 @@ container.appendChild(div)
 
 }
 
-// Effekte
-if(max[0] > 30){
+if(max[0]>30){
 heatEffect()
 }
 
-if(min[0] < 5){
+if(min[0]<5){
 rainEffect()
 }
 
@@ -212,8 +215,8 @@ rainEffect()
 
 }
 
+// map
 
-// Karte
 function loadMap(lat,lon){
 
 let map=L.map('map').setView([lat,lon],10)
@@ -226,14 +229,31 @@ L.marker([lat,lon]).addTo(map)
 
 }
 
+// location (save once)
 
-// Standort automatisch
 function autoLocation(){
+
+let savedLat=localStorage.getItem("lat")
+let savedLon=localStorage.getItem("lon")
+
+if(savedLat&&savedLon){
+
+let lat=parseFloat(savedLat)
+let lon=parseFloat(savedLon)
+
+getSun(lat,lon)
+loadWeather(lat,lon)
+loadMap(lat,lon)
+
+}else{
 
 navigator.geolocation.getCurrentPosition(pos=>{
 
-let lat = pos.coords.latitude
-let lon = pos.coords.longitude
+let lat=pos.coords.latitude
+let lon=pos.coords.longitude
+
+localStorage.setItem("lat",lat)
+localStorage.setItem("lon",lon)
 
 getSun(lat,lon)
 loadWeather(lat,lon)
@@ -243,5 +263,6 @@ loadMap(lat,lon)
 
 }
 
-autoLocation()
+}
 
+autoLocation()

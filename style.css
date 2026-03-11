@@ -69,23 +69,30 @@ margin-top:6px;
 border-radius:8px;
 
 }
+
 #dayprogress-container{
+
 width:100%;
 height:10px;
 background:#334155;
 border-radius:10px;
 margin-top:10px;
 overflow:hidden;
+
 }
 
 #dayprogress-bar{
+
 height:10px;
 width:0%;
 background:#facc15;
 transition:width 1s;
+
 }
 
 #dayprogress-text{
+
 margin-top:5px;
 font-size:14px;
+
 }

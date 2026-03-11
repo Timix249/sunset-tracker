@@ -28,8 +28,6 @@ weather:"7 Günlük Hava"
 
 }
 
-
-
 function setLanguage(l){
 
 lang = l
@@ -38,8 +36,6 @@ document.getElementById("weatherTitle").innerText =
 translations[l].weather
 
 }
-
-
 
 function updateClock(){
 
@@ -55,7 +51,6 @@ document.getElementById("date").innerText =
 
 setInterval(updateClock,1000)
 updateClock()
-
 
 
 function getMoon(){
@@ -75,8 +70,6 @@ if(phase < 0.75) return "🌔"
 return "🌕"
 
 }
-
-
 
 function updateSky(){
 
@@ -100,27 +93,34 @@ setInterval(updateSky,60000)
 updateSky()
 
 
+function rainEffect(){
 
-function updateDayProgress(sunrise, sunset){
+let container = document.getElementById("weatherEffect")
 
-let now = new Date()
+container.innerHTML=""
 
-let total = sunset - sunrise
-let passed = now - sunrise
+for(let i=0;i<100;i++){
 
-let percent = Math.floor((passed / total) * 100)
+let drop = document.createElement("div")
 
-if(percent < 0) percent = 0
-if(percent > 100) percent = 100
+drop.className="raindrop"
 
-document.getElementById("dayprogress-bar").style.width =
-percent + "%"
+drop.style.left=Math.random()*100+"%"
+drop.style.animationDuration=(0.5+Math.random())+"s"
 
-document.getElementById("dayprogress-text").innerText =
-"Day progress: " + percent + "%"
+container.appendChild(drop)
 
 }
 
+}
+
+function heatEffect(){
+
+let container = document.getElementById("weatherEffect")
+
+container.innerHTML="<div class='heat'></div>"
+
+}
 
 
 function getSun(lat,lon){
@@ -138,12 +138,9 @@ translations[lang].sunrise + " " + sunrise.toLocaleTimeString()
 document.getElementById("sunset").innerText =
 translations[lang].sunset + " " + sunset.toLocaleTimeString()
 
-updateDayProgress(sunrise, sunset)
-
 })
 
 }
-
 
 
 function loadWeather(lat,lon){
@@ -179,7 +176,6 @@ container.appendChild(div)
 }
 
 
-
 function loadMap(lat,lon){
 
 let map = L.map('map').setView([lat,lon],10)
@@ -191,7 +187,6 @@ maxZoom:19
 L.marker([lat,lon]).addTo(map)
 
 }
-
 
 
 function autoLocation(){
@@ -210,3 +205,7 @@ loadMap(lat,lon)
 }
 
 autoLocation()
+
+/* DEMO EFFECT */
+
+rainEffect()

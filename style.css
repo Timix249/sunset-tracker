@@ -70,29 +70,56 @@ border-radius:8px;
 
 }
 
-#dayprogress-container{
+/* WEATHER EFFECT */
 
+#weatherEffect{
+position:fixed;
+top:0;
+left:0;
 width:100%;
-height:10px;
-background:#334155;
-border-radius:10px;
-margin-top:10px;
+height:100%;
+pointer-events:none;
 overflow:hidden;
+}
+
+.raindrop{
+position:absolute;
+width:2px;
+height:15px;
+background:lightblue;
+animation:rain 1s linear infinite;
+}
+
+@keyframes rain{
+
+0%{
+transform:translateY(-20px);
+opacity:1;
+}
+
+100%{
+transform:translateY(100vh);
+opacity:0;
+}
 
 }
 
-#dayprogress-bar{
-
-height:10px;
-width:0%;
-background:#facc15;
-transition:width 1s;
-
+.heat{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:radial-gradient(circle at center,
+rgba(255,200,0,0.3),
+transparent 70%);
+animation:heatwave 3s infinite alternate;
 }
 
-#dayprogress-text{
+@keyframes heatwave{
 
-margin-top:5px;
-font-size:14px;
+0%{opacity:0.2;}
+
+100%{opacity:0.5;}
 
 }

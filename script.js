@@ -156,3 +156,22 @@ loadMap(lat,lon)
 }
 
 autoLocation()
+function updateDayProgress(sunrise, sunset){
+
+let now = new Date()
+
+let total = sunset - sunrise
+let passed = now - sunrise
+
+let percent = Math.floor((passed / total) * 100)
+
+if(percent < 0) percent = 0
+if(percent > 100) percent = 100
+
+document.getElementById("dayprogress-bar").style.width =
+percent + "%"
+
+document.getElementById("dayprogress-text").innerText =
+"Day progress: " + percent + "%"
+
+}

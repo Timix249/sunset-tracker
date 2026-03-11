@@ -1,35 +1,48 @@
 let lang = "en"
 
 const translations = {
+
 en:{
 sunrise:"🌅 Sunrise",
 sunset:"🌇 Sunset",
 weather:"7 Day Weather"
 },
+
 de:{
 sunrise:"🌅 Sonnenaufgang",
 sunset:"🌇 Sonnenuntergang",
 weather:"7 Tage Wetter"
 },
+
 uk:{
 sunrise:"🌅 Схід сонця",
 sunset:"🌇 Захід сонця",
 weather:"Погода на 7 днів"
 },
+
 tr:{
 sunrise:"🌅 Gün doğumu",
 sunset:"🌇 Gün batımı",
 weather:"7 Günlük Hava"
 }
+
 }
+
+
 
 function setLanguage(l){
+
 lang = l
+
 document.getElementById("weatherTitle").innerText =
 translations[l].weather
+
 }
 
+
+
 function updateClock(){
+
 let now = new Date()
 
 document.getElementById("clock").innerText =
@@ -37,14 +50,18 @@ document.getElementById("clock").innerText =
 
 document.getElementById("date").innerText =
 "📅 " + now.toLocaleDateString()
+
 }
 
 setInterval(updateClock,1000)
 updateClock()
 
 
+
 function getMoon(){
+
 let d = new Date()
+
 let lp = 2551443
 let now = d.getTime()/1000
 let new_moon = 592500
@@ -54,24 +71,56 @@ let phase = ((now - new_moon) % lp) / lp
 if(phase < 0.25) return "🌒"
 if(phase < 0.50) return "🌓"
 if(phase < 0.75) return "🌔"
+
 return "🌕"
+
 }
+
+
 
 function updateSky(){
 
 let hour = new Date().getHours()
+
 let sky = document.getElementById("sky")
 
 if(hour >= 6 && hour < 20){
+
 sky.innerHTML = "☀️ ☁️"
+
 }else{
+
 sky.innerHTML = getMoon() + " ⭐"
+
 }
 
 }
 
 setInterval(updateSky,60000)
 updateSky()
+
+
+
+function updateDayProgress(sunrise, sunset){
+
+let now = new Date()
+
+let total = sunset - sunrise
+let passed = now - sunrise
+
+let percent = Math.floor((passed / total) * 100)
+
+if(percent < 0) percent = 0
+if(percent > 100) percent = 100
+
+document.getElementById("dayprogress-bar").style.width =
+percent + "%"
+
+document.getElementById("dayprogress-text").innerText =
+"Day progress: " + percent + "%"
+
+}
+
 
 
 function getSun(lat,lon){
@@ -89,9 +138,12 @@ translations[lang].sunrise + " " + sunrise.toLocaleTimeString()
 document.getElementById("sunset").innerText =
 translations[lang].sunset + " " + sunset.toLocaleTimeString()
 
+updateDayProgress(sunrise, sunset)
+
 })
 
 }
+
 
 
 function loadWeather(lat,lon){
@@ -127,6 +179,7 @@ container.appendChild(div)
 }
 
 
+
 function loadMap(lat,lon){
 
 let map = L.map('map').setView([lat,lon],10)
@@ -138,6 +191,7 @@ maxZoom:19
 L.marker([lat,lon]).addTo(map)
 
 }
+
 
 
 function autoLocation(){
@@ -156,22 +210,3 @@ loadMap(lat,lon)
 }
 
 autoLocation()
-function updateDayProgress(sunrise, sunset){
-
-let now = new Date()
-
-let total = sunset - sunrise
-let passed = now - sunrise
-
-let percent = Math.floor((passed / total) * 100)
-
-if(percent < 0) percent = 0
-if(percent > 100) percent = 100
-
-document.getElementById("dayprogress-bar").style.width =
-percent + "%"
-
-document.getElementById("dayprogress-text").innerText =
-"Day progress: " + percent + "%"
-
-}
